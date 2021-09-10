@@ -1,6 +1,6 @@
 'use strict';
 
-const { AppError } = require('../utils');
+import { AppError } from '../utils/index.js';
 
 // Error response in development
 function sendErrorDev(err, res) {
@@ -68,4 +68,4 @@ function errorHandler(err, req, res, next) {
   }
 }
 
-module.exports = errorHandler;
+export default errorHandler;

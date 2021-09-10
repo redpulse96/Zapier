@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 const schema = {
   POST_login: Joi.object({
@@ -16,7 +16,7 @@ const schema = {
   }).required(),
 };
 
-function validateRequestHandler(request, methodName) {
+export function validateRequestHandler(request, methodName) {
   const schemaValidation = schema[methodName].validate(request);
   if (schemaValidation.error) {
     return {
@@ -29,5 +29,3 @@ function validateRequestHandler(request, methodName) {
     value: { ...schemaValidation.value },
   };
 }
-
-module.exports = validateRequestHandler;

@@ -1,20 +1,22 @@
 'use strict';
 
 // Importing packages
-const { Router } = require('express');
-const router = Router();
-
-// Importing Middlewares
-const { protect, validateRequest } = require('../middlewares');
-
+import express from 'express';
+// const Router =  express.Router();
 // Importing handlers
-const { attachbranch, getSingleUser, login, logout, signup, update } = require('../handlers');
+import { UsersHandler } from '../handlers/index.js';
+// Importing Middlewares
+import { protect } from '../middlewares/index.js';
 
-router.post('/login', validateRequest, login);
-router.post('/register', validateRequest, signup);
-router.post('/logout', logout);
-router.post('/update', protect, update);
-router.get('/fetch', protect, getSingleUser);
-router.put('/attachbranch/:branchId', protect, attachbranch);
+const { attachbranch, getSingleUser, login, logout, signup, update } = UsersHandler;
 
-module.exports = router;
+const router = express.Router();
+
+router.route('/login').post(login);
+router.route('/register').post(signup);
+router.route('/logout').post(logout);
+router.route('/update').post(protect, update);
+router.route('/fetch').get(protect, getSingleUser);
+router.route('/attachbranch/:branchId').put(protect, attachbranch);
+
+export default router;

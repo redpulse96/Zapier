@@ -1,20 +1,22 @@
 'use strict';
 
 // Importing the packages
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 // Importing the model
-const { Users } = require('../models');
+import { UsersModel } from '../models/index.js';
 
 // Importing utils
-const { generateHash, generateSalt, validatePassword, AppError, catchAsync } = require('../utils');
+import { AuthUtils, AppError, catchAsync } from '../utils/index.js';
+// const { AuthUtils, AppError, catchAsync } = Utils;
+const { generateHash, generateSalt, validatePassword } = AuthUtils;
 
 // Handler function to register the user
 const signup = catchAsync(async (req, res, next) => {
   const { email, password, username } = req.body;
   const $or = [{ username }, { email }];
 
-  const merchantExists = await Users.findOne({ $or });
+  const merchantExists = await UsersModel.findOne({ $or });
   if (merchantExists) {
     console.log('----------| merchantExists |----------');
     const message = merchantExists.email == email ? 'Email' : 'Username';
@@ -24,7 +26,7 @@ const signup = catchAsync(async (req, res, next) => {
       new AppError(message + ' already registered', 400, { invalidEmail, invalidUsername }),
     );
   }
-  const merchantDetails = new Users();
+  const merchantDetails = new UsersModel();
   const salt = await generateSalt();
   const encryptedPassword = await generateHash(password, salt);
   merchantDetails.username = username;
@@ -42,7 +44,7 @@ const login = catchAsync(async (req, res, next) => {
   const { password, username, email } = req.body;
   const $or = [{ username }, { email }];
 
-  const userExists = await Users.findOne({ $or }).select('+password');
+  const userExists = await UsersModel.findOne({ $or }).select('+password');
   if (!userExists) {
     return next(new AppError('Invalid email or password', 401));
   }
@@ -82,7 +84,7 @@ const update = catchAsync(async (req, res, next) => {
     }
   }
 
-  const update = await Users.updateOne({ _id }, updateObj);
+  const update = await UsersModel.updateOne({ _id }, updateObj);
   if (!update.ok) return next(new AppError('No User updated!', 500));
   console.log('----------| update |----------');
   console.dir(update);
@@ -112,7 +114,7 @@ const attachbranch = catchAsync(async (req, res, next) => {
 
   if (!_id) return next(new AppError('User Not found!', 404));
 
-  const update = await Users.updateOne({ _id }, { $push: { branchId } });
+  const update = await UsersModel.updateOne({ _id }, { $push: { branchId } });
   if (!update.ok) return next(new AppError('No User updated!', 500));
   console.log('----------| update |----------');
 
@@ -142,11 +144,4 @@ function sendToken(_id, statusCode, res) {
   });
 }
 
-module.exports = {
-  login,
-  signup,
-  getSingleUser,
-  logout,
-  update,
-  attachbranch,
-};
+export { login, signup, getSingleUser, logout, update, attachbranch };

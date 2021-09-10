@@ -1,9 +1,4 @@
-const passport = require('passport');
+import protect from './protect.js';
+import errorHandler from './errorHandler.js';
 
-require('./facebook.strategy')(passport);
-
-module.exports = {
-  ...require('./protect'),
-  errorHandler: require('./errorHandler'),
-  validateRequest: require('./validator'),
-};
+export { protect, errorHandler };

@@ -1,23 +1,24 @@
 'use strict';
 
 // Imports
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const passport = require('passport');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const router = require('./src/routes');
-const errorHandler = require('./src/middlewares/errorHandler');
-const cookieParser = require('cookie-parser');
-const expressMongoSanitize = require('express-mongo-sanitize');
-const xssClean = require('xss-clean');
-const compression = require('compression');
-const path = require('path');
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import passport from 'passport';
+import morgan from 'morgan';
+import bodyParser from 'body-parser';
+import router from './src/routes/index.js';
+import { errorHandler } from './src/middlewares/index.js';
+import cookieParser from 'cookie-parser';
+import expressMongoSanitize from 'express-mongo-sanitize';
+import xssClean from 'xss-clean';
+import compression from 'compression';
+import path from 'path';
 
 // Creating the express app
 const app = express();
 
+const __dirname = process.cwd();
 // Security Middleware
 app.use(helmet());
 
@@ -95,4 +96,4 @@ app.use((err, req, res) => {
 app.use(errorHandler);
 
 // Exporting the app
-module.exports = app;
+export default app;

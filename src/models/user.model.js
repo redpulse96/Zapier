@@ -1,8 +1,11 @@
 'use strict';
 
 // Importing mongoose and Schema
-const { Schema, model } = require('mongoose');
-const { isEmail } = require('validator');
+import mongoose from 'mongoose';
+import validator from 'validator';
+
+const { model, Schema } = mongoose;
+const { isEmail } = validator;
 
 // Creating a users schema
 const userSchema = new Schema(
@@ -32,7 +35,7 @@ const userSchema = new Schema(
     },
     profileFinished: {
       type: Boolean,
-      default: false
+      default: false,
     },
     avatar: {
       type: String,
@@ -98,4 +101,4 @@ userSchema.virtual('comment', {
 // Creating model from a Schema
 const Users = model('user', userSchema);
 
-module.exports = Users;
+export default Users;

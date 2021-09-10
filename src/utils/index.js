@@ -1,6 +1,6 @@
-module.exports = {
-  ...require('./auth.utils'),
-  AppError: require('./appError.utils'),
-  catchAsync: require('./catchAsync.utils'),
-  validateRequestHandler: require('./validator.utils'),
-};
+import * as AuthUtils from './auth.utils.js';
+import * as AppError from './appError.utils.js';
+import catchAsync from './catchAsync.utils.js';
+import * as validateRequestHandler from './validator.utils.js';
+
+export { AuthUtils, AppError, catchAsync, validateRequestHandler };

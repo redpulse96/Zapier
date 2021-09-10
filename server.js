@@ -1,15 +1,18 @@
 'use strict';
 
 // Configuring the environment variables
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
+
 const PORT = process.env.PORT || 8000;
 const HOST = process.env.HOST || 'localhost';
 
 // Database Connection
-require('./src/connecter');
+import dbConn from './src/connecter/index.js';
+dbConn();
 
 // Importing the express app
-const app = require('./app');
+import app from './app.js';
 
 // Starting the server
 app.listen(PORT, HOST, () => {
@@ -20,7 +23,7 @@ app.listen(PORT, HOST, () => {
 process.on('unhandledRejection', (err) => {
   console.log('Unhandled Rejection! Shutting down the server...');
   console.error(err);
-  server.close(() => {
+  app.close(() => {
     process.exit(1);
   });
 });

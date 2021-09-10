@@ -1,14 +1,13 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const db = process.env.MONGO_URI;
-
-return new Promise((res, rej) => {
-  mongoose.connect(db, {
+export default async () => {
+  const connString = process.env.MONGO_URI;
+  const dbConn = await mongoose.connect(connString, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
     useFindAndModify: false,
   });
   console.log('Connected to Database');
-  res(true);
-});
+  return dbConn;
+};

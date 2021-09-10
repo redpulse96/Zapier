@@ -1,12 +1,12 @@
 'use strict';
 
 // Import packages
-const { promisify } = require('util');
-const jwt = require('jsonwebtoken');
+import { promisify } from 'util';
+import jwt from 'jsonwebtoken';
 
 // Import modules
-const { AppError, catchAsync } = require('../utils');
-const { Users } = require('../models');
+import { AppError, catchAsync } from '../utils/index.js';
+import { UsersModel } from '../models/index.js';
 
 const protect = catchAsync(async (req, res, next) => {
   let token;
@@ -25,7 +25,7 @@ const protect = catchAsync(async (req, res, next) => {
 
   console.log(decoded);
   // Check if the user available
-  const user = await Users.findById(decoded._id).populate('branchId');
+  const user = await UsersModel.findById(decoded._id).populate('branchId');
   if (!user) {
     return next(new AppError('User belongs to this token is not available', 401));
   }
@@ -35,4 +35,4 @@ const protect = catchAsync(async (req, res, next) => {
   next();
 });
 
-module.exports = { protect };
+export default protect;

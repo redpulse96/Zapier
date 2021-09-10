@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 const DEFAULT_SALT = 10;
 
 async function generateSalt() {
@@ -35,8 +35,4 @@ async function validatePassword(inputPassword, encryptedPassword) {
   }
 }
 
-module.exports = {
-  generateHash,
-  generateSalt,
-  validatePassword,
-};
+export { generateHash, generateSalt, validatePassword };
