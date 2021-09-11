@@ -8,6 +8,6 @@ export default async () => {
     useCreateIndex: true,
     useFindAndModify: false,
   });
-  console.log('Connected to Database');
+  console.log('Connected to Database at:', connString.cyan);
   return dbConn;
 };

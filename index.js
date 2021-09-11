@@ -1,6 +1,7 @@
 'use strict';
 
 // Configuring the environment variables
+import colors from 'colors';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -16,7 +17,7 @@ import app from './app.js';
 
 // Starting the server
 app.listen(PORT, HOST, () => {
-  console.log(`Server started on ${HOST}:${PORT}`);
+  console.log(`Server started on ${HOST}:${PORT}`.brightMagenta);
 });
 
 // Handle Unhandled Rejections
